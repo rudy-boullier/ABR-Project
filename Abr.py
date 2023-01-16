@@ -64,7 +64,7 @@ class Abr:
         """
         if node is None:
             return None
-        if value != node.val:
+        if value != node.value:
             tmp = self.research_node(node, value)
             if tmp is not None:
                 node = tmp
@@ -72,9 +72,12 @@ class Abr:
             return node.right
         elif node.right is None:
             return node.left
-        min_node = self.min_abr(node.right)
-        node.value = min_node.value
-        node.right = self.remove_node(node.right, node.value)
+        try:
+            min_node = self.min_abr(node.right)
+            node.value = min_node.value
+            node.right = self.remove_node(node.right, node.value)
+        except AttributeError:
+            print("Error")
         return node
 
     def remove_node2(self, node: Node, value: float | int):  # not implemented
@@ -87,7 +90,7 @@ class Abr:
         """
         if node is None:
             return
-        if value != node.val:
+        if value != node.value:
             tmp = self.research_node(node, value)
             if tmp is not None:
                 node = tmp
@@ -98,7 +101,7 @@ class Abr:
             node = node.left
             return node
         biggest = self.max_abr(node.left)
-        node.value = biggest.val
+        node.value = biggest.value
         node.left = self.remove_node2(node.left, biggest.val)
         return node
 
@@ -144,56 +147,6 @@ class Abr:
         if node.left is None:
             return node.right
         node.left = self.delete_extreme_left(node.left)
-        return node
-
-    '''---------- extreme leaf ----------'''
-
-    def supp_extreme_right_leaf_abr(self, file):
-        """
-        Execute to delete of extreme right leaf in an abr tree
-        :param file: File
-        """
-        if self.tree is not None:
-            self.tree = self.delete_extreme_right_leaf(self.tree)
-            file.updateData(self.tree)
-            self.update_display_abr(self.canvas)
-
-    def delete_extreme_right_leaf(self, node: Node) -> Node:
-        """
-        Delete the extreme right leaf of an abr tree
-        :param node:
-        :return: Node
-        """
-        if node.right is None:
-            return node.left
-        if node.right.left is None and node.right.right is None:
-            node.right = None
-            return node
-        node.right = self.delete_extreme_right_leaf(node.right)
-        return node
-
-    def supp_extreme_left_leaf_abr(self, file):
-        """
-        Execute to delete of extreme left leaf in an abr tree
-        :param file: File
-        """
-        if self.tree is not None:
-            self.tree = self.delete_extreme_left_leaf(self.tree)
-            file.updateData(self.tree)
-            self.update_display_abr(self.canvas)
-
-    def delete_extreme_left_leaf(self, node: Node) -> Node:
-        """
-        Delete the extreme left leaf of an abr tree
-        :param node:
-        :return: Node
-        """
-        if node.left is None:
-            return node.right
-        if node.left.left is None and node.left.right is None:
-            node.left = None
-            return node
-        node.left = self.delete_extreme_left_leaf(node.left)
         return node
 
     '''------------------------------------ Explorations --------------------------------------'''
@@ -278,7 +231,7 @@ class Abr:
             boolean = False
         elif node.value == value:
             boolean = True
-        elif value < node.value:
+        elif value <= node.value:
             boolean = self.research_val(node.left, value)
         else:
             boolean = self.research_val(node.right, value)
@@ -295,7 +248,7 @@ class Abr:
             return
         elif node.value == value:
             return node
-        elif value < node.value:
+        elif value <= node.value:
             return self.research_node(node.left, value)
         else:
             return self.research_node(node.right, value)
@@ -314,7 +267,7 @@ class Abr:
         while node is not None:
             if node.value == value:
                 count += 1
-            if value < node.value:
+            if value <= node.value:
                 node = node.left
             else:
                 node = node.right
@@ -453,14 +406,14 @@ class Abr:
         """
         if node is None:
             return None
-        if self.height(node.left) > self.height(node.right):
+        if self.height(node.left) >= self.height(node.right):
             node.right = self.balancing(node.right)
             node = self.rotate_left(node)
         elif self.height(node.left) < self.height(node.right):
             node.left = self.balancing(node.left)
             node = self.rotate_right(node)
-        node.left = self.balancing(node.left)
         node.right = self.balancing(node.right)
+        node.left = self.balancing(node.left)
         return node
 
     def rotate_left(self, node: Node) -> Node:
@@ -469,8 +422,13 @@ class Abr:
         :param node: Node
         :return: Node
         """
+        if node.right is None:
+            return node
         tmp = node.right
-        node.right = tmp.left
+        if tmp.left is not None:
+            node.right = tmp.left
+        else:
+            node.right = None
         tmp.left = node
         return tmp
 
@@ -480,7 +438,12 @@ class Abr:
         :param node: Node
         :return: Node
         """
+        if node.left is None:
+            return node
         tmp = node.left
-        node.left = tmp.right
+        if tmp.right is not None:
+            node.left = tmp.right
+        else:
+            node.left = None
         tmp.right = node
         return tmp

@@ -23,7 +23,7 @@ class Node:
         ----------
         :param value: float | int
         """
-        if value < self.value:
+        if value <= self.value:
             if self.left is None:
                 self.left = Node(value)
             else:

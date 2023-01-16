@@ -23,7 +23,7 @@ class MainGuiABR:
         self.entree = Entry(menu_abr, textvariable=self.valueSupp, width=5)
         self.entree.pack()
 
-        self.bouton = Button(menu_abr, text="Del noeud", bg="red", command=self.checkSuppInput)
+        self.bouton = Button(menu_abr, text="zoom", bg="violet", command=self.checkSuppInput)
         self.bouton.pack()
 
         self.bouton = Button(menu_abr, text="Del gauche", bg="red",
@@ -55,6 +55,9 @@ class MainGuiABR:
         self.bouton.pack()
 
         self.bouton = Button(menu_abr, text="info", bg="black", fg="white", command=lambda: self.abr.info())
+        self.bouton.pack()
+
+        self.bouton = Button(menu_abr, text="équilibrage", bg="yellow", fg="black", command=lambda: self.abr.balancing_abr())
         self.bouton.pack()
 
         self.canvas = Canvas(self.root)
