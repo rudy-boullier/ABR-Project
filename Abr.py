@@ -1,3 +1,5 @@
+import math
+
 import DrawABR as Draw
 import Node
 
@@ -16,7 +18,7 @@ class Abr:
     def create_abr(self, data):
         """
         Create an abr tree from a list of values
-        :param data: list of float
+        :param data: list of float | int
         :return: Node, an abr tree
         """
         for value in data:
@@ -26,10 +28,10 @@ class Abr:
                 self.tree.insert(value)
         return self.tree
 
-    def add_value_abr(self, value: float, file):
+    def add_value_abr(self, value: float | int, file):
         """
         Add value to an abr tree
-        :param value: float
+        :param value: float | int
         :param file: File
         """
         if self.tree is None:
@@ -41,10 +43,10 @@ class Abr:
 
     '''-------------------------------------- Delete --------------------------------------'''
 
-    def supp_value_abr(self, value: float, file):
+    def supp_value_abr(self, value: float | int, file):
         """
         Delete a node in an abr tree
-        :param value: float
+        :param value: float | int
         :param file: File
         """
         if self.tree is not None:
@@ -52,12 +54,12 @@ class Abr:
             file.updateData(self.tree)
             self.update_display_abr(self.canvas)
 
-    def remove_node(self, node: Node, value: float) -> Node:
+    def remove_node(self, node: Node, value: float | int) -> Node:
         """
         Delete a node in an abr tree, the node is the first node with the value
         When a node is deleted, minval of the right subtree is used to replace the deleted node
         :param node: Node
-        :param value: float
+        :param value: float | int
         :return: Node | None
         """
         if node is None:
@@ -75,12 +77,12 @@ class Abr:
         node.right = self.remove_node(node.right, node.value)
         return node
 
-    def remove_node2(self, node: Node, value: float):  # not implemented
+    def remove_node2(self, node: Node, value: float | int):  # not implemented
         """
         Delete a node in an abr tree, the node is the first node with the value
         When a node is deleted, maxval of the left subtree is used to replace the deleted node
         :param node: Node
-        :param value: float
+        :param value: float | int
         :return: Node | None
         """
         if node is None:
@@ -101,6 +103,7 @@ class Abr:
         return node
 
     '''---------- extreme node ----------'''
+
     def supp_extreme_right_value_abr(self, file):
         """
         Execute to delete of extreme right node in an abr tree
@@ -268,7 +271,7 @@ class Abr:
         """
         Research a value in an abr tree, return True if the value is in the tree, False otherwise
         :param node: Node
-        :param value: float
+        :param value: float | int
         :return: bool
         """
         if node is None:
@@ -281,11 +284,11 @@ class Abr:
             boolean = self.research_val(node.right, value)
         return boolean
 
-    def research_node(self, node: Node, value: float) -> Node:
+    def research_node(self, node: Node, value: float | int) -> Node:
         """
         Research a node in an abr tree, return the node if the value is in the tree, None otherwise
         :param node: Node
-        :param value: float
+        :param value: float | int
         :return: Node | None
         """
         if node is None:
@@ -297,12 +300,12 @@ class Abr:
         else:
             return self.research_node(node.right, value)
 
-    def countVal(self, node: Node, value: float) -> int:
+    def countVal(self, node: Node, value: float | int) -> int:
         """
         Count the number of times a value appears in an abr tree.
         (when the same value exist in abr tree, the second value go to the right)
         :param node: Node
-        :param value: float
+        :param value: float | int
         :return: int
         """
         if self.tree is None:
@@ -357,10 +360,12 @@ class Abr:
         :param node: Node
         :return: int
         """
-        if node is None:
-            return None
-        if node.left is not None:
+        try:
+            if node.left is None:
+                return node.value
             return self.min_abr(node.left)
+        except AttributeError:
+            return -math.inf
 
     def max_abr(self, node: Node) -> Node:
         """
@@ -368,22 +373,24 @@ class Abr:
         :param node: Node
         :return: int
         """
-        if node is None:
-            return None
-        if node.right is not None:
+        try:
+            if node.right is None:
+                return node.value
             return self.max_abr(node.right)
+        except AttributeError:
+            return math.inf
 
     def biggestGap(self, node):
         """
         Return the biggest gap between two nodes (max value and min value) in an abr tree
         :param node: Node
-        :return: float
+        :return: float | int
         """
         if node is None:
             return 0
         return self.max_abr(node) - self.min_abr(node)
 
-    def sumAbr(self, node: Node) -> float:
+    def sumAbr(self, node: Node) -> float | int:
         """
         Return the sum of all values in an abr tree
         :param node: Node
@@ -393,11 +400,11 @@ class Abr:
             return 0
         return node.value + self.sumAbr(node.left) + self.sumAbr(node.right)
 
-    def average(self, node: Node) -> float | None:
+    def average(self, node: Node) -> float | int | None:
         """
         Return the average of all values in an abr tree
         :param node: Node
-        :return: float | None
+        :return: float | int | None
         """
         if node is None:
             return

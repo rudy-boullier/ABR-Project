@@ -4,24 +4,24 @@ class Node:
     ...
     Attributes
     ----------
-    value : float     the value of the node
+    value : float | int     the value of the node
     """
     def __init__(self, value):
         """
         Parameters
         ----------
-        :param value: float
+        :param value: float | int
         """
         self.value = value
         self.left = None
         self.right = None
 
-    def insert(self, value: float):
+    def insert(self, value: float | int):
         """
         Insert a new node in the ABR.
         Parameters
         ----------
-        :param value: float
+        :param value: float | int
         """
         if value < self.value:
             if self.left is None:
