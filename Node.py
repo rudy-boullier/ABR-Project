@@ -4,8 +4,7 @@ class Node:
     ...
     Attributes
     ----------
-    val : float
-        the value of the node
+    value : float     the value of the node
     """
     def __init__(self, value):
         """
@@ -13,28 +12,26 @@ class Node:
         ----------
         :param value: float
         """
-        self.val = value
+        self.value = value
         self.left = None
         self.right = None
 
-    def plantAbr(self, value: float):
+    def insert(self, value: float):
         """
-        Plant a new node in the ABR.
+        Insert a new node in the ABR.
         Parameters
         ----------
         :param value: float
         """
-        if self is None:
-            return Node(value)
-        elif value < self.val:
+        if value < self.value:
             if self.left is None:
                 self.left = Node(value)
             else:
-                self.left.plantAbr(value)
+                self.left.insert(value)
         # the value go to the right if the value is greater or egal than the value of the node
         else:
             if self.right is None:
                 self.right = Node(value)
             else:
-                self.right.plantAbr(value)
-        return self
+                self.right.insert(value)
+    
