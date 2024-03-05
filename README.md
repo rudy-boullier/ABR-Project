@@ -1,11 +1,5 @@
 # ABR Project
 
-## Membres
-
-Vincent Chavot- - Dambrun
-
-Rudy Boullier
-
 ## Objectif
 
 Réaliser une implémentation d’arbre binaire de recherche
@@ -22,3 +16,9 @@ Puis lancer le main
 
 - Un meilleur design pour effectuer ou afficher les informations pour l’ABR
 - L’affichage des nœuds peuvent se chevaucher
+
+## Membres
+
+Vincent Chavot- - Dambrun
+
+Rudy Boullier
