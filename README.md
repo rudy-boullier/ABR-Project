@@ -1,7 +1,5 @@
 # ABR Project
 
-## Objectif
-
 Réaliser une implémentation d’arbre binaire de recherche
 
 ## Installation
