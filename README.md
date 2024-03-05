@@ -12,7 +12,7 @@ Puis lancer le main
 
 ## Ce qui manque
 
-- Un meilleur design pour effectuer ou afficher les informations pour l’ABR
+- Un meilleur design pour afficher les informations dans l'interface
 - L’affichage des nœuds peuvent se chevaucher
 
 ## Membres
