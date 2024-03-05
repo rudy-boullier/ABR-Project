@@ -5,7 +5,7 @@ Réaliser une implémentation d’arbre binaire de recherche
 ## Installation
 
 ```bash
-git clone https://forge.univ-lyon1.fr/p2100788/abr-project.git
+git clone https://github.com/user9381/ABR-Project.git
 ```
 
 Puis lancer le main
